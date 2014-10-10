@@ -1,0 +1,60 @@
+oracle.jdbc.driver.OracleDriver:jdbc:oracle:thin:@10.70.239.177:1521:zjfy:bomcremedy:bomcremedy_123
+java.sql.SQLException: Listener refused the connection with the following error:
+ORA-12505, TNS:listener does not currently know of SID given in connect descriptor
+The Connection descriptor used by the client was:
+10.70.239.177:1521:zjfy
+
+        at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:112)
+        at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:261)
+        at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:387)
+        at oracle.jdbc.driver.PhysicalConnection.<init>(PhysicalConnection.java:414)
+        at oracle.jdbc.driver.T4CConnection.<init>(T4CConnection.java:78)
+        at oracle.jdbc.driver.T4CDriverExtension.getConnection(T4CDriverExtension.java:35)
+        at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:801)
+        at java.sql.DriverManager.getConnection(DriverManager.java:582)
+        at java.sql.DriverManager.getConnection(DriverManager.java:185)
+        at com.lingtong.servlet.ConnectionServlet.doPost(ConnectionServlet.java:42)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:637)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:718)
+        at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)
+        at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+        at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)
+        at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)
+        at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+        at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)
+        at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:111)
+        at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:293)
+        at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:859)
+        at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:603)
+        at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)
+        at java.lang.Thread.run(Thread.java:662)
+oracle.jdbc.driver.OracleDriver:jdbc:oracle:thin:@10.70.239.177:1521:zjfy:bomcremedy:bomcremedy_123
+java.sql.SQLException: Listener refused the connection with the following error:
+ORA-12505, TNS:listener does not currently know of SID given in connect descriptor
+The Connection descriptor used by the client was:
+10.70.239.177:1521:zjfy
+
+        at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:112)
+        at oracle.jdbc.driver.DatabaseError.throwSqlException(DatabaseError.java:261)
+        at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:387)
+        at oracle.jdbc.driver.PhysicalConnection.<init>(PhysicalConnection.java:414)
+        at oracle.jdbc.driver.T4CConnection.<init>(T4CConnection.java:78)
+        at oracle.jdbc.driver.T4CDriverExtension.getConnection(T4CDriverExtension.java:35)
+        at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:801)
+        at java.sql.DriverManager.getConnection(DriverManager.java:582)
+        at java.sql.DriverManager.getConnection(DriverManager.java:185)
+        at com.lingtong.servlet.ConnectionServlet.doPost(ConnectionServlet.java:42)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:637)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:718)
+        at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:290)
+        at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+        at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:233)
+        at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:191)
+        at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+        at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102)
+        at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:111)
+        at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:293)
+        at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:859)
+        at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:603)
+        at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:489)
+        at java.lang.Thread.run(Thread.java:662)

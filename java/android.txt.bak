@@ -1,0 +1,5 @@
+1.andorid电话api
+第一步.从TelephonyManager中实例化ITelephony
+			  Method getITelephonyMethod = telMgr.getClass().getDeclaredMethod("getITelephony");
+			  getITelephonyMethod.setAccessible(true);//私有化函数也能使用
+			  return (ITelephony)getITelephonyMethod.invoke(telMgr);   

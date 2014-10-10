@@ -1,0 +1,51 @@
+package com.remedy.arsys.ws.services.security;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import javax.servlet.ServletOutputStream;
+
+class FilterServletOutputStream extends ServletOutputStream
+{
+  public DataOutputStream stream;
+
+  public FilterServletOutputStream(OutputStream paramOutputStream)
+  {
+    this.stream = new DataOutputStream(paramOutputStream);
+  }
+
+  public void write(int paramInt)
+    throws IOException
+  {
+    this.stream.write(paramInt);
+  }
+
+  public void write(byte[] paramArrayOfByte)
+    throws IOException
+  {
+    this.stream.write(paramArrayOfByte);
+  }
+
+  public void write(byte[] paramArrayOfByte, int paramInt1, int paramInt2)
+    throws IOException
+  {
+    this.stream.write(paramArrayOfByte, paramInt1, paramInt2);
+  }
+
+  public void flush()
+    throws IOException
+  {
+    this.stream.flush();
+  }
+
+  public void close()
+    throws IOException
+  {
+    this.stream.close();
+  }
+}
+
+/* Location:           D:\temp\原来桌面的\webapps\midtier_hpia32\WEB-INF\lib\MidTier.jar
+ * Qualified Name:     com.remedy.arsys.ws.services.security.FilterServletOutputStream
+ * JD-Core Version:    0.6.1
+ */

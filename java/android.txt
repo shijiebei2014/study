@@ -1,0 +1,9 @@
+1.andorid电话api
+第一步.从TelephonyManager中实例化ITelephony
+			  Method getITelephonyMethod = telMgr.getClass().getDeclaredMethod("getITelephony");
+			  getITelephonyMethod.setAccessible(true);//私有化函数也能使用
+			  return (ITelephony)getITelephonyMethod.invoke(telMgr);   
+			  
+第二步.监听电话的状态
+       TelephonyManager telMgr= (TelephonyManager)getSystemService(TELEPHONY_SERVICE);   
+       telMgr.listen(new CallStateListener(), CallStateListener.LISTEN_CALL_STATE);//CallStateListener继承于PhoneStateListener

@@ -1,0 +1,82 @@
+1.css层叠次序(数字越大，优先级越高)
+  1.浏览器缺省设置
+  2.外部样式表
+  3.内部样式表(位于<head>标签内部)
+  4.内联样式(在HTML元素内部)
+  
+2.background背景-简写属性
+background:背景色(background-color) 背景图片(background-image) 背景图片展开方式(background-repear) 背景图片的位置(background-position)
+
+3.丰富多彩的Text文本格式
+	1.)文本的对齐方式(text-align)
+	   center:居中对齐
+	   right:右对齐
+ 		 justify:两端对齐
+ 	
+ 	2.)文本修饰(text-decoration)
+ 	   none:没有修饰
+ 	   overline:文字顶端有横线修饰
+ 	   line-through:文字中间有横线修饰
+ 	   underline:文字底部有横线修饰(如a标签默认的格式)
+ 	
+ 	3.)文本转换(text-transform)
+ 	   uppercase:大写
+ 	   lowercase:小写
+ 	   capitalize:驼峰形式
+ 	
+ 	4.)文本缩进(text-indent)
+ 	
+ 	5.)杂项
+ 	   letter-spacing:字符之间的空间
+ 	   line-height:行与行之间的空间
+ 	   direction:文本方向 
+ 	   word-spaciong:单词之间的空间
+ 	   nowrap:禁用文字环绕，不折行
+ 	   vertical-align:垂直居中
+
+4.li的属性
+  list-style:类型(list-style-type) 位置(list-style-position) 图片(list-style-image)
+	
+	一个li由项目标记和项目名称两部分组成,当ul的padding-left：0px;表示项目标记就去掉了;当然去除项目标记还有其他方法,就是list-style-type : none;
+	两种去除项目标记的区别是:第一种,连带原先项目标记的位置都没有了;第二种原先项目标记的位置还在,只是不显示项目标记。
+	
+	css的优先级
+	举例
+	选择符              权重
+	p                   1
+	p em                1+1
+	.apple              10
+	p.bright            10+1
+	#id                 100
+	继承                0(如ul{list-style-type:circle}, li{list-style-type:square} li的属性继承ul,同时定义了，10 > 0,覆盖)
+
+5.盒状模型
+  元素的高度和宽度，表示内容区域的高度和宽度，见图http://www.w3cschool.cc/css/css-boxmodel.html
+  
+6.display显示和visibility可见性
+  隐藏元素-display:none和visibility:hidden
+  
+  display-块和内联显示
+  display:block;display:inline;
+  
+7.postion(定位)
+  http://www.w3cschool.cc/css/css-positioning.html
+  
+  absolute:绝对定位的元素的位置相对于最近的已定位父元素，如果元素没有已定位的父元素，那么它的位置相对于<html>
+ 	         即父元素只要有position属性的值为fixed,absolute,relative中的一个,表示父元素已定位,默认是static,即没定位
+ 	         在IE7和IE8,使用fixed值,要定义文档类型,如<!DOCTYPE html>
+  
+8.float(浮动)
+  元素的水平方向浮动意味着元素只能左右移动而不能上下移动。
+  浮动元素之后的元素继续浮动。
+  浮动元素之前的元素将不会受到影响。
+  http://www.w3cschool.cc/css/css-float.html
+  
+9.table和td和th是有border属性的,但是tr没有border属性
+   若table,td或th同时设置了border属性,就会显示成双边框的效果，若只显示但边框的效果,则table有一个属性border-collapse,设为collapse即可。
+   
+10.vertical-align
+   使用于:内联元素和单元格元素(display:inline; display:table-cell)
+   如果div中使用vertical-align属性,因为div默认是display:block;如果设置成display:inline;则元素的weight和height就失效(weight和height只适用
+   于块状元素)。可以将div的display属性设置成table-cell值。但是如果紧接着这个div后面的元素也是div,而且也是table-cell显示,如果这两个div的宽
+   度之和小于父容器的话,这两个div是显示在同一行的。    

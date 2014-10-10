@@ -1,0 +1,7 @@
+﻿@import Card.h
+@implementation
+- (NSString *)content
+{
+	return [NSString stringWithFomat:@"%@,%@",self.suit,self.rank];
+}
+@end

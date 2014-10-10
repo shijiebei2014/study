@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" Content="text/html;charset=UTF-8"/>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//人类
+			function Person(name){
+				this.name = name;
+				this.sayHello = function(){alert("Hello, " + name);}
+			}
+			//人类的子类,雇员
+			function Employee(name, salary){
+				Person.call(this, name);
+				this.salary = salary;
+				this.showMeTheMoney = function(){this.name + " $ " + this.salary};
+			}			
+			
+			var person = new Person("zhq");
+			var employee = new Employee("xqq", 1000);
+			
+			alert(employee.constructor);
+			
+			/**
+			*方法的代码体(体现函数逻辑的数据)在每一个对象中都存在一个副本
+			*
+			*/
+			alert(employee.sayHello);
+			alert(person.sayHello);
+		</script>
+	</body>
+</html>

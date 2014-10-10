@@ -1,0 +1,28 @@
+<html>
+	<body>
+		<script type="text/javascript">
+			var Person = function(){
+				var name = "default";
+				
+				return {
+					getName : function(){
+						return name;
+					},
+					
+					setName : function(newName){
+						name = newName;
+						return name;
+					}
+				};
+			}	
+			
+			var john = Person();
+			john.setName("hello");
+			alert(john.getName());
+			
+			var jack = Person();
+			jack.setName("world");
+			alert(jack.getName());
+		</script>	
+	</body>	
+</html>

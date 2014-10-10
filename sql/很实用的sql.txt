@@ -1,0 +1,4 @@
+1. 获取某张表中大于某个纪录值的记录
+select count(t2.uid) as rank
+from user_score t1, user_score t2
+where t1.uid = @uid and t2.score > t1.score

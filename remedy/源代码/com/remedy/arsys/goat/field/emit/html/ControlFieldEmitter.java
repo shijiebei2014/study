@@ -1,0 +1,59 @@
+/*    */ package com.remedy.arsys.goat.field.emit.html;
+/*    */ 
+/*    */ import com.remedy.arsys.goat.ARBox;
+/*    */ import com.remedy.arsys.goat.Box;
+/*    */ import com.remedy.arsys.goat.FormContext;
+/*    */ import com.remedy.arsys.goat.GoatImage;
+/*    */ import com.remedy.arsys.goat.aspects.skins.ControlFieldAspect;
+/*    */ import com.remedy.arsys.goat.field.ControlField;
+/*    */ import com.remedy.arsys.goat.field.FieldGraph.Node;
+/*    */ import com.remedy.arsys.goat.field.GoatField;
+/*    */ import com.remedy.arsys.goat.intf.field.emit.IEmitterFactory;
+/*    */ import com.remedy.arsys.share.HTMLWriter;
+/*    */ import com.remedy.arsys.share.JSWriter;
+/*    */ import com.remedy.arsys.share.MessageTranslation;
+/*    */ import com.remedy.arsys.stubs.SessionData;
+/*    */ 
+/*    */ public class ControlFieldEmitter extends GoatFieldEmitter
+/*    */ {
+/*    */   private ControlField controlField;
+/*    */ 
+/*    */   public ControlFieldEmitter(GoatField paramGoatField, IEmitterFactory paramIEmitterFactory)
+/*    */   {
+/*  1 */     super(paramGoatField, paramIEmitterFactory); } 
+/*  1 */   public void setGf(GoatField arg0) { super.setGf(arg0); setControlField((ControlField)arg0); } 
+/*  1 */   private void setControlField(ControlField arg0) { this.controlField = arg0; } 
+/*  1 */   private ControlField getControlField() { return this.controlField; } 
+/*  1 */   public void emitOpenMarkup(FieldGraph.Node arg0, HTMLWriter arg1) { super.emitOpenMarkup(arg0, arg1); Box localBox1 = getMARBox().toBox(); StringBuilder localStringBuilder1 = new StringBuilder(); StringBuilder localStringBuilder2 = new StringBuilder(); String str1 = MessageTranslation.getLocalizedText(SessionData.get().getLocale(), "{0} Disabled"); if (getMControlType() == 1) localStringBuilder2.append("btn btnurl "); else if (getMControlType() == 0) { if (getMAccess() == 3) { localStringBuilder2.append(isMImageFlat() ? "btnfltd " : "btn btn3d "); if (isMImageFlat()) if (getMImgBtnMouseoverEffect() == 2) localStringBuilder2.append(" toolbarBtnD "); else if (getMImgBtnMouseoverEffect() == 0) localStringBuilder2.append(" defaultCursor ");   } else { localStringBuilder2.append(isMImageFlat() ? "btnflt " : "btn btn3d "); if (isMImageFlat()) if (getMImgBtnMouseoverEffect() == 2) localStringBuilder2.append(" toolbarBtn "); else if (getMImgBtnMouseoverEffect() == 1) localStringBuilder2.append(" pointerCursor "); else if (getMImgBtnMouseoverEffect() == 0) localStringBuilder2.append(" defaultCursor ");   }  } else
+/*  1 */       localStringBuilder2.append(isMImageFlat() ? "btnflt " : "btn btn3d "); if (this.controlField.getMImagePosition() == 2) localStringBuilder2.append(" btnrtimgd "); if (getMAccess() == 3) if ((getMDisabledImage() != null) && (isMImageFlat())) localStringBuilder2.append("btnd"); else localStringBuilder2.append(" btnd "); 
+/*  1 */     localStringBuilder2.append(getSelectorClassNames()); localStringBuilder1.append(localBox1.toCSS(getMAlignment())); if (getMColour() != null) localStringBuilder1.append("color:").append(getMColour()).append(";"); if (!isMVisible()) localStringBuilder1.append("visibility:hidden;"); if (getMZOrder() != -1L) localStringBuilder1.append("z-index:" + getMZOrder() + ";"); if (isMTransparent()) localStringBuilder1.append("background-color:transparent;"); if ((getMControlType() == 1) && (getMButtonText().length() == 0) && (FormContext.get().IsVoiceAccessibleUser())) arg1.openTag("a"); else arg1.openTag("a").attr("href", "javascript:"); arg1.attr("id", "WIN_0_" + getMFieldID()).attr("arid", getMFieldID()).attr("artype", getMDataTypeString()).attr("ardbn", getMDBName()); String str2 = emitFillAttsInMarkup(arg0, arg1); String str3 = emitFlowAttsInMarkup(arg0, arg1); String str4 = ""; String str5 = ""; if ((getMButtonText() != null) && (getMButtonText().length() > 0)) str4 = getMButtonText(); else if (getMLabel() != null) str4 = getMLabel(); else str4 = getMDBName(); boolean bool1 = false; if ((getMImage() != null) && (this.controlField.getMImagePosition() == 0)) bool1 = true; str5 = str4; boolean bool2 = false; if ((getMControlType() == 0) && (getMImage() != null) && (getMImgButtonAltText() != null) && (getMImgButtonAltText().length() > 0) && (bool1)) { str5 = getMImgButtonAltText(); bool2 = true;
+/*    */     }
+/*  1 */     Object localObject1;
+/*  1 */     if (FormContext.get().IsVoiceAccessibleUser()) { if (((getMControlType() == 0) && (getMImage() == null)) || ((getMControlType() == 0) && (getMImage() != null) && (!bool1))) { if (getMAccess() == 3) { localObject1 = new Object[] { str4 }; str4 = MessageTranslation.getLocalizedText(SessionData.get().getLocale(), str1, (Object[])localObject1); } arg1.attr("title", str4); arg1.attr("artxt", str5); } } else if (!bool2) str5 = ""; arg1.attr("artcolor", getMColour()); arg1.attr("class", localStringBuilder2.toString()); if (str2 != null) localStringBuilder1.append(str2); if (str3 != null) localStringBuilder1.append(str3); arg1.attr("style", localStringBuilder1.toString()).endTag(false); if ((getMControlType() == 0) && (getMImage() != null)) { localObject1 = placeQuadrants(); assert (localObject1.length == 3); Object localObject2 = localObject1[0]; Object localObject3 = localObject1[1]; Box localBox2 = localObject1[2]; assert ((localObject2 != null) && (localObject3 != null)); arg1.openTag("div").attr("class", "btnimgdiv"); arg1.attr("style", localObject2.toCSS()).endTag();
+/*    */       Object[] arrayOfObject;
+/*  1 */       if (getMDisabledImage() != null) { arg1.openTag("img").attr("src", getMDisabledImage().getUrl()); arg1.attr("id", "dis_img_" + getMFieldID()); if (getMDisabledImage().getContentType().equals("image/png")) arg1.attr("png", 1); arg1.condAttr(bool2, "aralttxt", 1, 0); arg1.attr("artxt", str5); arg1.condAttr(bool1, "arimgcenter", 1, 0); if (getMAccess() == 3) { arrayOfObject = new Object[] { str5 }; str5 = MessageTranslation.getLocalizedText(SessionData.get().getLocale(), str1, arrayOfObject); } if (bool1) { arg1.attr("alt", str5); if (!FormContext.get().IsVoiceAccessibleUser()) arg1.attr("title", str5);  } else { arg1.attr("alt", ""); } if (getMAccess() == 3) arg1.attr("class", "btnimg").attr("style", localObject3.toCSS() + " visibility: inherit;").closeOpenTag(); else arg1.attr("class", "btnimg").attr("style", localObject3.toCSS() + " visibility: hidden;").closeOpenTag(); arg1.openTag("img").attr("src", getMImage().getUrl()); arg1.attr("id", "reg_img_" + getMFieldID()); if (getMImage().getContentType().equals("image/png")) arg1.attr("png", 1); arg1.condAttr(bool2, "aralttxt", 1, 0); str5 = str5.replace(str1, ""); arg1.attr("artxt", str5); arg1.condAttr(bool1, "arimgcenter", 1, 0); if (bool1) { arg1.attr("alt", str5); if (!FormContext.get().IsVoiceAccessibleUser()) arg1.attr("title", str5);  } else { arg1.attr("alt", ""); } if (getMAccess() == 3) arg1.attr("class", "btnimg").attr("style", localObject3.toCSS() + " visibility: hidden;").closeOpenTag(); else arg1.attr("class", "btnimg").attr("style", localObject3.toCSS()).closeOpenTag();  } else { arg1.openTag("img").attr("src", getMImage().getUrl()); arg1.attr("id", "reg_img_" + getMFieldID()); if (getMImage().getContentType().equals("image/png")) arg1.attr("png", 1); arg1.condAttr(bool2, "aralttxt", 1, 0); arg1.attr("artxt", str5); arg1.condAttr(bool1, "arimgcenter", 1, 0); if (getMAccess() == 3) { arrayOfObject = new Object[] { str5 }; str5 = MessageTranslation.getLocalizedText(SessionData.get().getLocale(), str1, arrayOfObject); } if (bool1) { arg1.attr("alt", str5); if (!FormContext.get().IsVoiceAccessibleUser()) arg1.attr("title", str5);  } else { arg1.attr("alt", ""); } arg1.attr("class", "btnimg").attr("style", localObject3.toCSS()).closeOpenTag(); } arg1.closeTag("div"); if ((localBox2 != null) && (getMButtonText() != null)) emitCentredText(arg1, localBox2, true);  } else { emitCentredText(arg1, localBox1.wholeChildBox(), false); } arg1.closeTag("a"); } 
+/*  1 */   public void emitDefaults(FieldGraph.Node arg0, JSWriter arg1) { super.emitDefaults(arg0, arg1); arg1.property("v", isMVisible()); int i = arg0.getEmitMode(); if (i == 0) { arg1.property("a", getMAccess()); if (getMFont() != null) arg1.property("f", getMFont()); arg1.property("l", getMButtonText() == null ? "" : getMButtonText()); if (getMColour() != null) arg1.property("c", getMColour());  }  } 
+/*  1 */   private final void emitCentredText(HTMLWriter arg0, Box arg1, boolean arg2) { Box localBox = new Box(arg1); if (arg2) localBox.mW -= 2; if (localBox.mW < 0) localBox.mW = 0; String str = ""; if (getMControlType() == 1) if (getMTextJustify() == 1) str = "text-align:left;"; else if (getMTextJustify() == 4) str = "text-align:right;"; 
+/*  1 */     arg0.openTag("div").attr("class", "btntextdiv").attr("style", localBox.toCSS()).endTag(false); arg0.openTag("div").attr("class", getMFont()).attr("style", str + ";width:" + localBox.mW + "px").endTag(false); if (getMButtonText() != null) arg0.cdata(getMButtonText()); arg0.closeTag("div"); arg0.closeTag("div"); } 
+/*  1 */   public void emitOpenHelp(HTMLWriter arg0) { String str = getHelpText(); if ((str == null) || (str.trim().length() == 0)) return; emitOpenHelpBase(arg0); StringBuilder localStringBuilder1 = new StringBuilder(); StringBuilder localStringBuilder2 = new StringBuilder(); localStringBuilder1.append("FieldName ").append(getMFont()); if (getMColour() != null) localStringBuilder2.append("color:").append(getMColour()).append(";"); arg0.openTag("span").attr("class", localStringBuilder1.toString()).attr("style", localStringBuilder2.toString()).endTag(); if (getMButtonText() != null) arg0.cdata(getMButtonText()); else arg0.cdata(getMDBName()); arg0.closeTag("span"); arg0.openTag("span").attr("class", "HelpText").endTag(); arg0.append(str); arg0.closeTag("span"); } 
+/*  1 */   public void emitCloseHelp(HTMLWriter arg0) { String str = getHelpText(); if ((str == null) || (str.trim().length() == 0)) return; super.emitCloseHelpBase(arg0); } 
+/*  1 */   protected int getMControlType() { return getControlField().getMControlType(); } 
+/*  1 */   protected boolean isMImageFlat() { return getControlField().isMImageFlat(); } 
+/*  1 */   protected String getMColour() { ControlField localControlField = getControlField(); return getMColour_aroundBody1$advice(this, localControlField, ControlFieldAspect.aspectOf(), localControlField, null); } 
+/*  1 */   protected int getMAccess() { return getControlField().getMAccess(); } 
+/*  1 */   protected boolean isMTransparent() { return getControlField().isMTransparent(); } 
+/*  1 */   protected String getMButtonText() { return getControlField().getMButtonText(); } 
+/*  1 */   protected GoatImage getMImage() { ControlField localControlField = getControlField(); return getMImage_aroundBody3$advice(this, localControlField, ControlFieldAspect.aspectOf(), localControlField, null); } 
+/*  1 */   protected GoatImage getMDisabledImage() { return getControlField().getMDisabledImage(); } 
+/*  1 */   protected String getMImgButtonAltText() { return getControlField().getMImgButtonAltText(); } 
+/*  1 */   protected final Box[] placeQuadrants() { return getControlField().placeQuadrants(); } 
+/*  1 */   protected String getMFont() { return getControlField().getMFont(); } 
+/*  1 */   protected int getMTextJustify() { return getControlField().getMTextJustify(); } 
+/*  1 */   protected int getMImgBtnMouseoverEffect() { return getControlField().getMImgBtnMouseoverEffect(); }
+/*    */ 
+/*    */ }
+
+/* Location:           D:\temp\原来桌面的\webapps\midtier_hpia32\WEB-INF\lib\MidTier.jar
+ * Qualified Name:     com.remedy.arsys.goat.field.emit.html.ControlFieldEmitter
+ * JD-Core Version:    0.6.1
+ */

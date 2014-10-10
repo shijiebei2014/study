@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="html/text;charset=UTF-8"/>
+		<script type="text/javascript" src="http://crypto-js.googlecode.com/files/2.0.0-crypto-md5.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+				var digest = Crypto.MD5("Message");
+				
+				var digestByte = Crypto.MD5("Message", {asBytes: true});
+				var digestString = Crypto.MD5("Message", {asString: true});
+				
+				console.log("digest:" + digest);
+				console.log("digestByte:" + digestByte);
+				console.log("digestString:" + digestString);
+		</script>
+	</body>
+	
+</html>

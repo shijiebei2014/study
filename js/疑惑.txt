@@ -1,0 +1,21 @@
+1.IE上parseInt函数,有兼容的问题
+  将字符串转成整数型的,一般都用parseInt函数
+  alert(parseInt("09"));	
+			
+	alert(new Number("01"));
+	alert(new Number("02"));
+	alert(new Number("03"));
+	alert(new Number("04"));
+	alert(new Number("05"));
+	alert(new Number("06"));
+	alert(new Number("07"));
+	alert(new Number("08"));
+	alert(new Number("09"));
+	
+	不测不知道,一测吓一跳。parseInt函数，在解析字符串01~07是没问题的;而08~09时,就会变为0;
+	改成new Number(),构造函数吧。
+	
+2.js中undefined与null的区别
+  undefined表示申明了一个变量,但是这个变量没有被赋值
+  null表示不存在这个对象
+  js的非空判断,!变量名,只能针对已经申明的变量来进行判断是否为undefined,即未定义的变量;不能对未申明的变量进行判断

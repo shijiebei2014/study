@@ -1,0 +1,17 @@
+syntax: glob
+.hgignore
+iePluginFigure/debug/
+iePluginFigure/web/
+iePluginBasic/debug/
+iePluginBasic/web/
+
+imgEditer/debug/
+
+imgEditer/web/*.*
+imgEditer/web/plugin/*.swf
+
+syntax: regexp
+^[^/]+\.jpg$
+^[^/]+\.png$
+^[^/]+\.gif$
+^[^/]+\.psd$

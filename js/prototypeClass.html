@@ -1,0 +1,42 @@
+﻿<html>
+	<head>
+		<meta http-equiv="Content-Type" Content="text/html;charset=UTF-8"/>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var person =  //定义一个对象来作为原型模型-----对象
+    {
+        Create: function(name, age)  //这个当构造函数
+        {
+            this.name = name;
+            this.age = age;
+        },
+        SayHello: function()  //定义方法
+        {
+            alert("Hello, I'm " + this.name);
+        },
+        HowOld: function()  //定义方法
+        {
+            alert(this.name + " is " + this.age + " years old.");
+        }
+    };
+    
+    function Person(name, age){
+    	var arr = [];
+    	if(arguments && arguments.length == 2){
+    		for(var i = 0; i < arguments.length; i++){
+    			arr.push(arguments[i]);
+    		}
+    	}
+    	function New(){//闭包，在内层函数中，引用外层函数定义的变量（不进行修改）
+    		person.Create.apply(this, arr);
+    	}
+    	New.prototype = person;//将闭包的函数的原型设为person
+    	return new New();//调用New方法,返回New的原型
+    };
+    
+    var per = new Person("zhq", 24);
+    per.SayHello();
+		</script>
+	</body>
+</html>

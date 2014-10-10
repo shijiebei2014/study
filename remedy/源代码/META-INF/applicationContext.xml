@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:util="http://www.springframework.org/schema/util"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+  <!-- Enable auto-proxying for advisors -->
+<!--  <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/> -->
+
+  <!-- A bean template for AOP proxying -->
+  <bean id="proxyTemplate" abstract="true" class="org.springframework.aop.framework.ProxyFactoryBean"/>
+
+  <!-- Mid-Tier configuration -->
+  <bean id="configuration" class="com.remedy.arsys.config.Configuration" factory-method="getInstance"/>
+
+
+
+
+  
+
+  <!-- CACHES -->
+
+  <!-- AR form cache -->
+  <bean id="formCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.FORMS"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="1"/>    
+  </bean>
+
+   <!-- AR form fieldmap cache -->
+   <!--
+        Cache of all CachedFieldMaps dealt out by this form. Key is permissions set.
+        Also cache of all forms.
+
+        The form cache is not cached by permissions so we don't expire it. But the
+        FieldMapCache we should expire since field maps are cached according to permissions.
+   -->
+  <bean id="fieldmapCache" class="com.remedy.arsys.share.FieldMapCache" depends-on="configuration">
+    <constructor-arg value="flddet"/>
+  </bean>  
+
+  <!-- AR form field cache -->
+  <!--
+      Cache of server + form name + field ID -> com.remedy.arsys.api.Field
+      The Field items in this cache are referenced by "flyweights" or field IDs in CachedFieldMap objects
+      saving considerable space as more and more users with different sets of permissions
+      access the same form.
+  -->
+  <bean id="formfieldCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.FORM_FIELDS"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="1"/>    
+  </bean>
+
+  <!-- GoatFieldMap cache -->  
+  <bean id="goatfieldMapCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.DISPLAYED_FIELDS"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="3"/>    
+  </bean>  
+
+  <!-- Activelink cache -->  
+  <bean id="activelinkCache" class="com.remedy.arsys.share.ActiveLinkCache" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.ACTIVE_LINKS"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="2"/>    
+  </bean>  
+  
+  <!-- Fieldgraph cache -->  
+  <bean id="fieldgraphCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.COMPILED_FORMS"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="3"/>    
+  </bean>
+  
+  <!-- HTML data cache -->  
+  <bean id="htmlDataCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.HTMLData"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="3"/>    
+  </bean>
+
+  <!-- JS data cache -->
+  <bean id="jsDataCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.JSData"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="3"/>    
+  </bean>  
+
+  <!-- HTML data cache for ViewField -->
+  <bean id="vfhtmlDataCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.VFHTMLData"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="3"/>    
+  </bean>
+  
+  <!-- JS data cache for ViewField-->
+  <bean id="vfjsDataCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.VFJSData"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="3"/>    
+  </bean>
+  
+  <!-- AR User Preferences cache -->
+  <bean id="arUserPreferencesCache" class="com.remedy.arsys.share.MiscCache" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.USER_PREFERENCES"/>
+    </constructor-arg>
+  </bean>
+
+  <!-- AR user searches cache -->
+  <bean id="arUserSearchesCache" class="com.remedy.arsys.share.MiscCache" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.USER_SEARCHES"/>
+    </constructor-arg>
+  </bean>
+    
+
+  <!-- Skins cache --> 
+  <bean id="skinDefCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.SKIN_DEFINITION"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="3"/>    
+  </bean>
+  
+    <bean id="skinsCache" class="com.remedy.arsys.share.Cachetable" depends-on="configuration">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.GoatCacheConstants.SKIN_PROPERTIES"/>
+    </constructor-arg>
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.share.Cache.SENSITIVE_DEFINITIONS"/>
+    </constructor-arg>
+    <constructor-arg value="3"/>    
+  </bean>
+    
+
+  
+  <!-- ASPECTS -->
+
+  <!-- Cache aspect for form service -->
+  <bean id="IFormServiceCacheAspect" class="com.remedy.arsys.goat.aspects.IFormServiceCacheAspect" factory-method="aspectOf">
+    <property name="cache">
+      <ref local="formCache"/>
+    </property>  
+  </bean>
+  
+  <!-- Cache aspect for form field service -->
+  <bean id="IFormFieldServiceCacheAspect" class="com.remedy.arsys.goat.aspects.IFormFieldServiceCacheAspect" factory-method="aspectOf">
+    <property name="cache">
+      <ref local="formfieldCache"/>
+    </property>
+  </bean>
+
+  <!-- Cache aspect for fieldmap service -->
+  <bean id="IFieldMapServiceCacheAspect" class="com.remedy.arsys.goat.aspects.IFieldMapServiceCacheAspect" factory-method="aspectOf">
+    <property name="cache">
+      <ref local="fieldmapCache"/>
+    </property>
+    <property name="formFieldService">
+      <ref local="formFieldService"/>
+    </property>
+  </bean>
+
+  <!-- Cache aspect for goat fieldmap service -->
+  <bean id="IGoatFieldMapServiceCacheAspect" class="com.remedy.arsys.goat.aspects.IGoatFieldMapServiceCacheAspect" factory-method="aspectOf">  
+    <property name="cache">
+      <ref local="goatfieldMapCache"/>
+    </property>
+    <property name="goatFieldMapService">
+      <ref local="goatfieldMapService"/>
+    </property>
+  </bean>
+
+  <!-- Cache aspect for ActiveLink service -->
+  <bean id="IActiveLinkServiceCacheAspect" class="com.remedy.arsys.goat.aspects.IActiveLinkServiceCacheAspect" factory-method="aspectOf">    
+    <property name="activeLinkCache">
+      <ref local="activelinkCache"/>
+    </property>
+    <property name="activeLinkService">
+      <ref local="activelinkService"/>
+    </property>        
+  </bean>    
+
+  <!-- Cache aspect for fieldgraph service -->
+  <bean id="IFieldGraphServiceCacheAspect" class="com.remedy.arsys.goat.aspects.IFieldGraphServiceCacheAspect" factory-method="aspectOf">    
+    <property name="cache">
+      <ref local="fieldgraphCache"/>
+    </property>
+  </bean>    
+
+  <!-- Cache aspect for fieldgraph service -->
+  <bean id="IDHTMLServiceCacheAspect" class="com.remedy.arsys.goat.aspects.IDHTMLServiceCacheAspect" factory-method="aspectOf">      
+    <property name="htmlDataCache">
+      <ref local="htmlDataCache"/>
+    </property>
+    <property name="jsDataCache">
+      <ref local="jsDataCache"/>
+    </property>
+    <property name="vfhtmlDataCache">
+      <ref local="vfhtmlDataCache"/>
+    </property>
+    <property name="vfjsDataCache">
+      <ref local="vfjsDataCache"/>
+    </property>   
+  </bean>      
+
+  <!-- Cache aspect for AR user preferences service -->
+  <bean id="IARUserPreferencesServiceCacheAspect" class="com.remedy.arsys.goat.aspects.IARUserPreferencesServiceCacheAspect" factory-method="aspectOf">    
+    <property name="ARUserPreferencesCache">
+      <ref local="arUserPreferencesCache"/>
+    </property>
+  </bean>
+
+  <!-- Cache aspect for AR user searches service -->
+  <bean id="IARUserSearchesServiceCacheAspect" class="com.remedy.arsys.goat.aspects.IARUserSearchesServiceCacheAspect" factory-method="aspectOf">    
+    <property name="searchesCache">
+      <ref local="arUserSearchesCache"/>
+    </property>
+  </bean>
+  
+    <!-- Cache aspect for Skins Service -->
+  <bean id="ISkinServiceCacheAspect" class="com.remedy.arsys.goat.aspects.ISkinServiceCacheAspect" factory-method="aspectOf">    
+    <property name="skinsCache">
+      <ref local="skinsCache"/>
+    </property>
+    
+    <property name="skinDefCache">
+      <ref local="skinDefCache"/>
+    </property>
+
+    <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+  </bean>        
+ 
+  <!-- SKIN ASPECTS -->
+  <bean id="ControlFieldAspect" class="com.remedy.arsys.goat.aspects.skins.ControlFieldAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+  
+  <bean id="TrimFieldAspect" class="com.remedy.arsys.goat.aspects.skins.TrimFieldAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+   
+  <bean id="PanelFieldAspect" class="com.remedy.arsys.goat.aspects.skins.PanelFieldAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+  
+  <bean id="DataFieldAspect" class="com.remedy.arsys.goat.aspects.skins.DataFieldAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+  
+  <bean id="VertNavBarAspect" class="com.remedy.arsys.goat.aspects.skins.VertNavBarAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+  
+ <bean id="ViewInfoAspect" class="com.remedy.arsys.goat.aspects.skins.ViewInfoAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+  </bean>
+  
+  <bean id="ViewFieldAspect" class="com.remedy.arsys.goat.aspects.skins.ViewFieldAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+  
+  <bean id="AttachmentFieldAspect" class="com.remedy.arsys.goat.aspects.skins.AttachmentFieldAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+  
+  <bean id="TableFieldAspect" class="com.remedy.arsys.goat.aspects.skins.TableFieldAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+
+  <bean id="AppListAspect" class="com.remedy.arsys.goat.aspects.skins.AppListAspect" factory-method="aspectOf">
+  	 <property name="skinService">
+      <ref local="skinService"/>
+    </property>
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+
+  <!-- SERVICES -->
+
+  <!-- Form service -->
+  <bean id="formService" class="com.remedy.arsys.goat.service.FormService"/>
+
+  <!-- Form fieldmap service -->
+  <bean id="fieldMapService" class="com.remedy.arsys.goat.service.FieldMapService">
+    <property name="formFieldService">
+      <ref local="formFieldService"/>
+    </property>
+  </bean>
+
+  <!-- Form field service -->
+  <bean id="formFieldService" class="com.remedy.arsys.goat.service.FormFieldService"/>
+
+  <!-- GoatFieldFactory -->
+  <bean id="goatfieldFactory" class="com.remedy.arsys.goat.field.GoatFieldFactory"/>
+  
+  <!-- GoatFieldMap service -->
+  <bean id="goatfieldMapService" class="com.remedy.arsys.goat.service.GoatFieldMapService">
+    <property name="formFieldService">
+      <ref local="formFieldService"/>
+    </property>  
+    <property name="fieldMapService">
+      <ref local="fieldMapService"/>
+    </property>
+    <property name="goatFieldFactory">
+      <ref local="goatfieldFactory"/>
+    </property>        
+  </bean>
+
+  <!-- GoatField service -->
+  <bean id="goatfieldService" class="com.remedy.arsys.goat.service.GoatFieldService">
+    <property name="goatFieldMapService">
+      <ref local="goatfieldMapService"/>
+    </property>
+  </bean>
+
+  <bean id="emitterFactory" class="com.remedy.arsys.goat.field.emit.html.EmitterFactory" scope="prototype" />  
+  
+  <!-- Form fieldgraph service -->
+  <bean id="fieldgraphService" class="com.remedy.arsys.goat.service.FieldGraphService">
+    <property name="formService">
+      <ref local="formService"/>
+    </property>
+  </bean>
+  
+  	<!-- Skins Service -->	
+	
+  <bean id="skinService" class="com.remedy.arsys.goat.service.SkinService"/>
+
+  <!-- ActiveLink service -->
+  <bean id="activelinkService" class="com.remedy.arsys.goat.service.ActiveLinkService"/>
+
+  <!-- AR user preferences service -->
+  <bean id="arUserPreferencesService" class="com.remedy.arsys.goat.service.ARUserPreferencesService"/>
+
+  <!-- AR user searches service -->
+  <bean id="arUserSearchesService" class="com.remedy.arsys.goat.service.ARUserSearchesService"/>
+  
+
+  <!-- DHTML service -->
+  <bean id="dhtmlService" class="com.remedy.arsys.goat.service.DHTMLService" depends-on="configuration">
+  
+    <property name="requestService">
+      <ref local="dhtmlRequestService"/>
+    </property>
+  
+    <property name="fieldGraphService">
+      <ref local="fieldgraphService"/>
+    </property>
+    
+    <property name="skinService">
+      <ref local="skinService"/>
+    </property>  
+  </bean>
+
+  <!-- DHTML Request service -->
+  <bean id="dhtmlRequestService" class="com.remedy.arsys.goat.service.DHTMLRequestService" depends-on="configuration">
+    <property name="fieldGraphService">
+      <ref local="fieldgraphService"/>
+    </property>
+    <property name="dhtmlService">
+      <ref local="dhtmlService"/>
+    </property>
+  </bean>  
+  
+  <!-- STATIC DEPENDENCIES -->
+  
+  <!-- Set the Form service into the Form class -->
+  <bean class="com.remedy.arsys.goat.Form" factory-method="setFormService">
+    <constructor-arg ref="formService"/>
+  </bean>
+
+  <!-- Set the Form fieldmap service into the Form class -->
+  <bean class="com.remedy.arsys.goat.Form" factory-method="setFieldMapService">
+    <constructor-arg ref="fieldMapService"/>
+  </bean>
+
+  <!-- Set the GoatField service into the GoatField class -->
+  <bean class="com.remedy.arsys.goat.field.GoatField" factory-method="setGoatFieldService">
+    <constructor-arg ref="goatfieldService"/>
+  </bean>
+  
+  <!-- Set the Form fieldgraph service into the Form class -->
+  <bean class="com.remedy.arsys.goat.field.FieldGraph" factory-method="setFieldGraphService">
+    <constructor-arg ref="fieldgraphService"/>
+  </bean>
+
+  <!-- Set the ActiveLink service into the ActiveLink class -->
+  <bean class="com.remedy.arsys.goat.ActiveLink" factory-method="setActiveLinkService">
+    <constructor-arg ref="activelinkService"/>
+  </bean>
+
+  <!-- Set the request service map into the FormServlet class. This can contain html/flash/other request services. -->
+      
+  <bean class="com.remedy.arsys.stubs.GoatServlet" factory-method="setRequestServiceMap">
+    <constructor-arg>
+      <map>
+        <entry>
+          <key>
+            <util:constant static-field="com.remedy.arsys.goat.intf.Constants.REQUEST_SERVICE_FORMAT_HTML"/>
+          </key>
+          <ref local="dhtmlRequestService"/>
+        </entry>        
+      </map>      
+    </constructor-arg>
+  </bean>
+
+  <!-- Set the default request service. This can be one of html,flash -->
+  <bean class="com.remedy.arsys.stubs.GoatServlet" factory-method="setRequestServiceTypeDefault">
+    <constructor-arg>
+      <util:constant static-field="com.remedy.arsys.goat.intf.Constants.REQUEST_SERVICE_FORMAT_HTML"/>
+    </constructor-arg>
+  </bean>
+    
+</beans>
